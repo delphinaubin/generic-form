@@ -1,6 +1,4 @@
-export const Select = (props) => {
-  const { field, onChange, value } = props;
-
+const useSelectOptions = (field) => {
   const normalizedOptions = field.options.map((option) => {
     if (typeof option === "string") {
       return {
@@ -8,10 +6,29 @@ export const Select = (props) => {
         label: option,
       };
     }
-    return option;
+    if (typeof option.value === "string" || typeof option.label === "string") {
+      return {
+        value: option.value ?? option.label,
+        label: option.label ?? option.value,
+      };
+    }
+    throw new Error(
+      `Invalid option for select with key "${field.key}"  (${JSON.stringify(
+        option
+      )})`
+    );
   });
+  return {
+    options: normalizedOptions,
+  };
+};
 
-  const optionsElements = normalizedOptions.map((option) => {
+export const Select = (props) => {
+  const { field, onChange, value } = props;
+
+  const { options } = useSelectOptions(field);
+
+  const optionsElements = options.map((option) => {
     return (
       <option value={option.value} key={option.value}>
         {option.label}

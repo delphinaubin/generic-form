@@ -2,10 +2,20 @@ import React from "react";
 import { getFieldComponent } from "./formTypeToComponent";
 import { FormComponent } from "./FormComponent";
 
-export const FieldSet = (props) => {
-  const { onChange, value, field, shouldBeUnWrapped } = props;
 
+export const fieldSetDefaultValue = ({ fields }) => {
+  const defaultValue = fields.reduce((prev, currentField) => {
+    return {
+      ...prev,
+      [currentField.key]: getFieldComponent(currentField.type).defaultValue(
+        currentField
+      ),
+    };
+  }, {});
+  return defaultValue;
+}
 
+export function useFieldSetComponents({ onChange, value, field }) {
   const onFieldValueChange = (field) => (changedValue) => {
     onChange({
       ...value,
@@ -19,12 +29,19 @@ export const FieldSet = (props) => {
         <FormComponent
           onChange={onFieldValueChange(currentField)}
           value={currentFieldValue}
-          field={currentField}
-        />
+          field={currentField} />
       </div>
     );
   });
+  return formComponents;
+}
 
+
+
+export const FieldSet = (props) => {
+  const { onChange, value, field, shouldBeUnWrapped } = props;
+
+  const formComponents = useFieldSetComponents({ onChange, value, field });
   const mainDivStyle = shouldBeUnWrapped
     ? {}
     : { margin: "1rem", padding: "1rem", border: 'dashed 1px' };
@@ -37,15 +54,5 @@ export const FieldSet = (props) => {
 };
 export const FieldSetFormComponent = {
   component: FieldSet,
-  defaultValue: ({ fields }) => {
-    const defaultValue = fields.reduce((prev, currentField) => {
-      return {
-        ...prev,
-        [currentField.key]: getFieldComponent(currentField.type).defaultValue(
-          currentField
-        ),
-      };
-    }, {});
-    return defaultValue;
-  },
+  defaultValue: fieldSetDefaultValue
 };

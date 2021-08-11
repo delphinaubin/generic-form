@@ -1,4 +1,5 @@
-import { FieldSet, FieldSetFormComponent } from "./FieldSet";
+import { FieldSet, FieldSetFormComponent } from "../FieldSet";
+import { moveDown, moveUp } from "./MoveItems";
 
 export const RepeatableFieldSet = (props) => {
   const { value, onChange, field } = props;
@@ -27,6 +28,13 @@ export const RepeatableFieldSet = (props) => {
     onChange(value.filter((_, index) => index !== itemToRemoveIndex));
   };
 
+  const moveItemUp = (itemToMoveIndex) => () => {
+    onChange(moveUp(value, itemToMoveIndex));
+  };
+
+  const moveItemDown = (itemToMoveIndex) => () => {
+    onChange(moveDown(value, itemToMoveIndex));
+  };
   const mainDivStyle = {
     padding: "1rem",
     margin: "1rem",
@@ -34,6 +42,8 @@ export const RepeatableFieldSet = (props) => {
   };
 
   const itemElements = value.map((itemValue, index) => {
+    const isFirstElement = index === 0;
+    const isLastElement = index >= value.length - 1;
     return (
       <div key={index} style={mainDivStyle}>
         <FieldSet
@@ -43,6 +53,12 @@ export const RepeatableFieldSet = (props) => {
           shouldBeUnWrapped={true}
         />
         <button onClick={removeItem(index)}>Remove Item</button>
+        {!isFirstElement ? (
+          <button onClick={moveItemUp(index)}>Move up</button>
+        ) : null}
+        {!isLastElement ? (
+          <button onClick={moveItemDown(index)}>Move down</button>
+        ) : null}
       </div>
     );
   });

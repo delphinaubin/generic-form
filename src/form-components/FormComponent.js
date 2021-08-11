@@ -8,6 +8,6 @@ export const FormComponent = (props) => {
   return React.createElement(component, {
     field,
     onChange,
-    value: value,
+    value,
   });
 };

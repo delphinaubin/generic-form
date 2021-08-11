@@ -1,7 +1,7 @@
 import { TextFormComponent } from "./Text";
 import { NumberFormComponent } from "./Number";
 import { FieldSetFormComponent } from "./FieldSet";
-import { RepeatableFieldSetComponent } from "./RepeatableFieldSet";
+import { RepeatableFieldSetComponent } from "./repeatable-field-set/RepeatableFieldSet";
 import { SelectFormComponent } from "./Select";
 
 let formTypeToComponent;

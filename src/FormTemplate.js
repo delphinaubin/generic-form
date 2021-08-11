@@ -1,16 +1,4 @@
 export const formTemplate = {
-  slices: {
-    userForm: {
-      name: "User Form",
-      fields: [
-        {
-          key: "name",
-          placeholder: "Enter the user name",
-          type: "text",
-        },
-      ],
-    },
-  },
   name: "My custom type",
   fields: [
     {
@@ -26,11 +14,6 @@ export const formTemplate = {
         { label: "Germany", value: "ge" },
       ],
     },
-    // {
-    //   key: "toto",
-    //   type: "sliceZone",
-    //   availableSlices: ["userForm"],
-    // },
     {
       key: "title",
       placeholder: "Enter the page title",
